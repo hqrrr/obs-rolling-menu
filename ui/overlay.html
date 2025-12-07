@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>OBS Overlay</title>
+
+    <!-- Main stylesheet for the overlay components -->
+    <link rel="stylesheet" href="/ui/style.css">
+
+    <style>
+        /*
+           OBS browser source typically expects a transparent background
+           so the overlay can be drawn on top of the scene.
+        */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <!--
+        Root container for the entire overlay.
+
+        All sizing, background styling, opacity, and border radius
+        are dynamically controlled by overlay.js based on backend state
+        (containerWidth, containerHeight, backgroundColor, backgroundOpacity, etc.).
+    -->
+    <div id="overlay-root" class="overlay-container">
+
+        <!--
+            Fixed top section.
+
+            Contains:
+              - Rotating text segment (overlay-text), which fades in/out
+                and cycles through segments provided by the backend.
+              - Header label (overlay-header), which displays the selected column.
+
+            This block does NOT scroll and stays pinned at the top.
+        -->
+        <div id="overlay-top">
+            <span id="overlay-text">Loading...</span>
+            <div id="overlay-header" style="font-weight: bold; margin-bottom: 8px;"></div>
+        </div>
+
+        <!--
+            Scrollable viewport.
+
+            Inside this region, overlay.js injects:
+              - #overlay-inner (created dynamically)
+              - Two copies of the full list content for seamless vertical looping.
+
+            Only this region scrolls; everything above remains fixed.
+        -->
+        <div id="overlay-viewport">
+            <div id="overlay-list"></div>
+        </div>
+    </div>
+
+    <!-- Main overlay logic (animation, DOM updates, SSE listener, etc.) -->
+    <script src="/ui/overlay.js"></script>
+</body>
+</html>

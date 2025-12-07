@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Overlay Control</title>
+
+    <!-- Shared stylesheet used by both control and overlay pages -->
+    <link rel="stylesheet" href="/ui/style.css">
+</head>
+<body>
+    <!-- Language switcher -->
+    <div id="langBox" style="text-align: right">
+        <select id="lang">
+            <!-- <option value="browser">Indicated by the browser</option> -->
+            <option value="chn">简体中文</option>
+            <option value="en">English</option>
+        </select>
+    </div>
+    <!--
+        Main wrapper for the control interface.
+        The layout and spacing are handled by CSS (.control-wrapper).
+        This page serves as the configuration UI for the overlay,
+        typically opened in a normal browser window (not OBS).
+    -->
+    <div class="control-wrapper">
+
+        <!-- Title section -->
+        <div class="control-wrapper-titel">
+            <h1>
+                <span lang="en">OBS Rolling Menu Control Panel</span>
+                <span lang="chn">OBS滚动菜单控制面板</span>
+            </h1>
+            <p style="font-size:14px;">
+                <span lang="en">
+                    A simple browser-source overlay tool for OBS (or similar software)
+                    that displays a scrolling list and rotating text, fully customizable
+                    through a built-in web control panel.
+                </span>
+                <span lang="chn">
+                    一个用于OBS（或者其它类似软件）的简单滚动列表叠加显示工具，
+                    支持顶部轮播文字、可调背景、字体、滚动速度，并可通过内置控制面板实时配置。
+                </span>
+            </p>
+        </div>
+
+        <!--
+            SECTION 1: Data column selection and grouping
+            Controls which Excel column is displayed in the scrolling list,
+            and optionally how the items are grouped.
+        -->
+        <div class="control-group">
+            <h2>
+                <span lang="en">General Settings</span>
+                <span lang="chn">常规设置</span>
+            </h2>
+
+            <!-- Overlay container size -->
+            <label>
+                <span lang="en">Width (px)</span>
+                <span lang="chn">宽度 (px)</span>
+                <input type="number" id="input-width" min="100" max="4000" step="10" placeholder="300">
+            </label>
+
+            <label>
+                <span lang="en">Height (px)</span>
+                <span lang="chn">高度 (px)</span>
+                <input type="number" id="input-height" min="50" max="4000" step="10" placeholder="300">
+            </label>
+
+            <!-- Background styling -->
+            <label>
+                <span lang="en">Background color</span>
+                <span lang="chn">背景颜色</span>
+                <input type="color" id="input-bg-color" value="#000000">
+            </label>
+
+            <label>
+                <span lang="en">Background opacity</span>
+                <span lang="chn">背景透明度</span>
+                <input type="range" id="input-bg-opacity" min="0" max="1" step="0.05">
+                <span id="opacity-value"></span>
+            </label>
+
+            <label>
+                <span lang="en">Background border radius</span>
+                <span lang="chn">背景边框圆角</span>
+                <input type="number" id="input-border-radius" min="0" max="30" step="1" placeholder="4">
+            </label>
+
+            <h3>
+                <span lang="en">Data displayed in the rolling menu</span>
+                <span lang="chn">滚动菜单显示数据</span>
+            </h3>
+
+            <!-- Select the column used for the main display -->
+            <label>
+                <span lang="en">Display the data from which column in the data.xlsx file:</span>
+                <span lang="chn">显示data.xlsx文件中哪一列的数据：</span>
+                <select id="column-select"></select>
+            </label>
+
+            <!-- Select grouping logic (0–2 columns, JS-generated options) -->
+            <label style="margin-top: 0.5rem;">
+                <span lang="en">What criteria are used to classify the displayed data:</span>
+                <span lang="chn">显示的数据根据什么进行分类：</span>
+                <select id="group-by-select">
+                    <option value="">- 不分类 / No Classification -</option>
+                    <!-- Additional options are injected by control.js -->
+                </select>
+            </label>
+        </div>
+
+        <!--
+            SECTION 2: Text Settings (top fading text + appearance)
+            Controls how the top marquee/fading text behaves and looks.
+        -->
+        <div class="control-group">
+            <h2>
+                <span lang="en">Top Rotation Text Settings</span>
+                <span lang="chn">顶部轮播文字设置</span>
+            </h2>
+
+            <!-- Multi-segment text; semicolons define segments -->
+            <label>
+                <span lang="en">Rotation text content</span>
+                <span lang="chn">轮播文字内容</span><br/>
+                <span lang="en" style="font-size: small">Note: Multiple text segments are separated by semicolons (;),<br/>supporting the insertion of HTML code snippets.</span>
+                <span lang="chn" style="font-size: small">注：多段文字以分号;断开，支持插入HTML代码片段</span>
+                <textarea
+                    id="input-text"
+                    placeholder="轮播文字内容，用分号（;）分隔各段落。Rotation text content. Separate segments with semicolons (;)"
+                    rows="4"
+                    style="width: 100%; resize: vertical;"
+                ></textarea>
+            </label>
+
+            <!-- Duration each segment stays visible -->
+            <label>
+                <span lang="en">Display duration per text segment (seconds)</span>
+                <span lang="chn">每一段文字轮播显示时间（秒）</span>
+                <input type="number" id="input-text-seg-duration" min="1" max="60" step="0.5" placeholder="5">
+            </label>
+
+            <!-- Top-text font size -->
+            <label>
+                <span lang="en">Rotation text font size (px)</span>
+                <span lang="chn">轮播文字字号大小 (px)</span>
+                <input
+                    type="range"
+                    id="input-fontsize"
+                    min="10"
+                    max="120"
+                    step="1"
+                >
+                <span id="fontsize-value"></span>
+            </label>
+
+            <!-- Top-text color -->
+            <label>
+                <span lang="en">Rotation text color</span>
+                <span lang="chn">轮播文字颜色</span>
+                <input type="color" id="input-color">
+            </label>
+
+            <!-- Font family and weight combined in one dropdown -->
+            <label>
+                <span lang="en">Rotation text font family</span>
+                <span lang="chn">轮播文字字体</span>
+                <select id="input-text-fontfamily">
+                    <option value="system|400">系统默认 / System default</option>
+                    <!-- Noto Sans -->
+                    <option value="Noto Sans SC|100">Noto Sans SC 细体 Thin</option>
+                    <option value="Noto Sans SC|400">Noto Sans SC 常规 Regular</option>
+                    <option value="Noto Sans SC|700">Noto Sans SC 粗体 Bold</option>
+                    <option value="Noto Sans SC|900">Noto Sans SC 黑体 Black</option>
+                    <!-- Noto Serif -->
+                    <option value="Noto Serif SC|200">Noto Serif SC 超细体 Extra Light</option>
+                    <option value="Noto Serif SC|400">Noto Serif SC 常规 Regular</option>
+                    <option value="Noto Serif SC|700">Noto Serif SC 粗体 Bold</option>
+                    <option value="Noto Serif SC|900">Noto Serif SC 黑体 Black</option>
+                    <!-- Liu Jian Mao Cao -->
+                    <option value="Liu Jian Mao Cao|400">钟齐 流江毛草 Liu Jian Mao Cao</option>
+                    <!-- Long Cang -->
+                    <option value="Long Cang|400">龙藏体 Long Cang</option>
+                    <!-- Ma Shan Zheng -->
+                    <option value="Ma Shan Zheng|400">钟齐 马善政毛笔楷书 Ma Shan Zheng</option>
+                    <!-- WDXL Lubrifont SC -->
+                    <option value="WDXL Lubrifont SC|400">WDXL 润滑油字体 Lubrifont SC</option>
+                    <!-- ZCOOL KuaiLe -->
+                    <option value="ZCOOL KuaiLe|400">站酷 快乐体 ZCOOL KuaiLe</option>
+                    <!-- ZCOOL QingKe HuangYou -->
+                    <option value="ZCOOL QingKe HuangYou|400">站酷 庆科黄油体 ZCOOL QingKe HuangYou</option>
+                    <!-- ZCOOL XiaoWei -->
+                    <option value="ZCOOL XiaoWei|400">站酷 小薇体 ZCOOL XiaoWei</option>
+                    <!-- Zhi Mang Xing -->
+                    <option value="Zhi Mang Xing|400">钟齐 志莽行书 Zhi Mang Xing</option>
+                </select>
+            </label>
+        </div>
+
+        <!--
+            SECTION 3: Layout & List Styling
+            Controls how the scrolling list looks and how the overlay block is sized and animated.
+        -->
+        <div class="control-group">
+            <h2>
+                <span lang="en">Rolling Menu Settings</span>
+                <span lang="chn">滚动菜单设置</span>
+            </h2>
+
+            <!-- List font size -->
+            <label>
+                <span lang="en">Rolling menu font size (px)</span>
+                <span lang="chn">滚动菜单字号大小 (px)</span>
+                <input
+                    type="range"
+                    id="input-list-fontsize"
+                    min="8"
+                    max="80"
+                    step="1"
+                >
+                <span id="list-fontsize-value"></span>
+            </label>
+
+            <!-- List text color -->
+            <label>
+                <span lang="en">Rolling menu text color</span>
+                <span lang="chn">滚动菜单文字颜色</span>
+                <input type="color" id="input-list-color">
+            </label>
+
+            <!-- List font family -->
+            <label>
+                <span lang="en">Rolling menu font family</span>
+                <span lang="chn">滚动菜单文字字体</span>
+                <select id="input-list-fontfamily">
+                    <option value="system|400">系统默认 / System default</option>
+                    <!-- Noto Sans -->
+                    <option value="Noto Sans SC|100">Noto Sans SC 细体 Thin</option>
+                    <option value="Noto Sans SC|400">Noto Sans SC 常规 Regular</option>
+                    <option value="Noto Sans SC|700">Noto Sans SC 粗体 Bold</option>
+                    <option value="Noto Sans SC|900">Noto Sans SC 黑体 Black</option>
+                    <!-- Noto Serif -->
+                    <option value="Noto Serif SC|200">Noto Serif SC 超细体 Extra Light</option>
+                    <option value="Noto Serif SC|400">Noto Serif SC 常规 Regular</option>
+                    <option value="Noto Serif SC|700">Noto Serif SC 粗体 Bold</option>
+                    <option value="Noto Serif SC|900">Noto Serif SC 黑体 Black</option>
+                    <!-- Liu Jian Mao Cao -->
+                    <option value="Liu Jian Mao Cao|400">钟齐 流江毛草 Liu Jian Mao Cao</option>
+                    <!-- Long Cang -->
+                    <option value="Long Cang|400">龙藏体 Long Cang</option>
+                    <!-- Ma Shan Zheng -->
+                    <option value="Ma Shan Zheng|400">钟齐 马善政毛笔楷书 Ma Shan Zheng</option>
+                    <!-- WDXL Lubrifont SC -->
+                    <option value="WDXL Lubrifont SC|400">WDXL 润滑油字体 Lubrifont SC</option>
+                    <!-- ZCOOL KuaiLe -->
+                    <option value="ZCOOL KuaiLe|400">站酷 快乐体 ZCOOL KuaiLe</option>
+                    <!-- ZCOOL QingKe HuangYou -->
+                    <option value="ZCOOL QingKe HuangYou|400">站酷 庆科黄油体 ZCOOL QingKe HuangYou</option>
+                    <!-- ZCOOL XiaoWei -->
+                    <option value="ZCOOL XiaoWei|400">站酷 小薇体 ZCOOL XiaoWei</option>
+                    <!-- Zhi Mang Xing -->
+                    <option value="Zhi Mang Xing|400">钟齐 志莽行书 Zhi Mang Xing</option>
+                </select>
+            </label>
+
+            <!-- Scrolling speed -->
+            <label>
+                <span lang="en">Scrolling speed (px/s)</span>
+                <span lang="chn">滚动速度 (px/s)</span>
+                <input type="number" id="input-scroll-speed" min="0" max="1000" step="1" placeholder="30">
+            </label>
+        </div>
+
+        <!--
+            SECTION 4: Preset Management
+            Allows users to save, load, and delete style presets.
+            Presets are stored server-side as JSON files.
+        -->
+        <div class="control-group">
+            <h2>
+                <span lang="en">Style Presets</span>
+                <span lang="chn">样式预设</span>
+            </h2>
+
+            <label>
+                <span lang="en">Saved Styles:</span>
+                <span lang="chn">已保存的样式：</span>
+                <select id="preset-select">
+                    <option value="">- 未选择预设 / No preset selected -</option>
+                </select>
+            </label>
+
+            <label style="margin-top: 0.5rem;">
+                <span lang="en">New style name:</span>
+                <span lang="chn">新样式名称：</span>
+                <input type="text" id="preset-name" placeholder="例如：大号白色 / Example: LargeWhite" />
+            </label>
+
+            <div class="button-row" style="margin-top: 0.5rem;">
+                <button type="button" id="btn-save-preset">
+                    <span lang="en">Save</span>
+                    <span lang="chn">保存</span>
+                </button>
+                <button type="button" id="btn-delete-preset">
+                    <span lang="en">Delete</span>
+                    <span lang="chn">删除</span>
+                </button>
+            </div>
+
+            <!-- Status message for preset operations (save/load/delete) -->
+            <div id="preset-message" style="margin-top: 0.3rem; font-size: 0.85rem; color: #ccc;"></div>
+        </div>
+
+    </div>
+
+    <!--
+        Main control panel logic:
+         - Loads initial state from backend
+         - Handles form changes
+         - Saves updates back to the server
+         - Manages presets
+    -->
+    <script src="/ui/control.js"></script>
+</body>
+</html>

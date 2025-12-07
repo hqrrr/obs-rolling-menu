@@ -1,0 +1,20 @@
+{
+  "backgroundColor": "#000000",
+  "backgroundOpacity": 0.3,
+  "borderRadius": 6,
+  "color": "#ffffff",
+  "containerHeight": 300,
+  "containerWidth": 300,
+  "fontSize": 32,
+  "groupByColumn": "Category B+Category C",
+  "listColor": "#ffffff",
+  "listFontFamily": "Noto Sans SC",
+  "listFontSize": 20,
+  "listFontWeight": 100,
+  "scrollSpeed": 30,
+  "selected_column": "Category A",
+  "text": "Text 1;Text 2;Text 3;Text 4;Text 5",
+  "textFontFamily": "Noto Sans SC",
+  "textFontWeight": 700,
+  "textSegmentDuration": 4
+}

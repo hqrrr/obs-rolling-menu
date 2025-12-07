@@ -1,0 +1,20 @@
+{
+  "backgroundColor": "#feadff",
+  "backgroundOpacity": 0.2,
+  "borderRadius": 30,
+  "color": "#ff00a0",
+  "containerHeight": 300,
+  "containerWidth": 300,
+  "fontSize": 32,
+  "groupByColumn": "Category B+Category C",
+  "listColor": "#ff7ace",
+  "listFontFamily": "ZCOOL QingKe HuangYou",
+  "listFontSize": 20,
+  "listFontWeight": 400,
+  "scrollSpeed": 60,
+  "selected_column": "Category A",
+  "text": "<img src=\"pics/gift.png\">Text 1;Text 2;Text 3<img src=\"pics/gift.png\">;Text 4;Text 5",
+  "textFontFamily": "ZCOOL QingKe HuangYou",
+  "textFontWeight": 400,
+  "textSegmentDuration": 4
+}

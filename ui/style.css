@@ -1,0 +1,277 @@
+
+/*
+    Global defaults
+    Base typography and background styling applied to both control.html
+    and overlay.html unless overridden. Overlay pages typically override
+    container styling via inline JS (background opacity, colors, etc.).
+ */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #111;   /* Used for control panel, overlay uses transparent BG */
+    color: #fff;
+}
+
+/*
+    Overlay layout & container styling
+    This is the main wrapper inside overlay.html.
+    JavaScript dynamically modifies width, height, opacity, color, and
+    border radius depending on the backend state.
+ */
+.overlay-container {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4); /* Default overridden by JS */
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+    Fixed top section inside the overlay
+    Contains:
+    - #overlay-text (rotating / fading text)
+    - #overlay-header (column label; currently hidden by default)
+ */
+#overlay-top {
+    display: flex;
+    align-items: center;    /* Vertically center text and optional icons */
+    gap: 8px;               /* Spacing between image and text */
+}
+
+/* Optional small icon next to the text (if provided) */
+#overlay-top img {
+    height: 1.2em;          /* Scales with text size */
+    width: auto;
+    object-fit: contain;    /* Ensures entire icon is visible, not cropped */
+    vertical-align: middle;
+}
+
+/* Rotating text block */
+#overlay-text {
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Header text (column label) — hidden by design */
+#overlay-header {
+    display: none !important;
+}
+
+/*
+    Scrollable viewport
+    Only this area scrolls vertically. JS injects #overlay-inner containing
+    two copies of the list content for seamless infinite looping.
+ */
+#overlay-viewport {
+    overflow: hidden;
+}
+
+/*
+    List item styling (scrolling items)
+ */
+.overlay-item {
+    font-size: 24px;
+    line-height: 1.3;
+    margin: 2px 0;
+}
+
+/* Group header styling (e.g., [Artist A]) */
+.overlay-group {
+    font-size: 24px;    /* Overridden by JS */
+    line-height: 1.4;
+    margin: 6px 0 2px;
+    font-weight: bold;
+    opacity: 0.9;
+}
+
+/*
+    Control panel layout (control.html)
+    Flexbox-based layout that adapts well to large screens and allows
+    multiple control groups to wrap as needed.
+ */
+.control-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    flex-wrap: wrap;    /* Allows responsive wrapping of control groups */
+}
+
+/* Title occupies full width above control groups */
+.control-wrapper-titel{
+    width: 100%;
+}
+
+/* Individual control sections */
+.control-group {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: #222;
+    max-width: 700px;
+    min-width: 300px;
+}
+
+/* Control section heading */
+.control-group h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+/* Form label styling */
+label {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* Generic form input styling for the control panel */
+input[type="text"],
+input[type="number"],
+input[type="color"],
+input[type="range"] {
+    width: 100%;
+    margin-top: 0.2rem;
+    margin-bottom: 0.4rem;
+}
+
+/*
+    Language switcher
+ */
+#langBox{
+    position: absolute;
+    top: 12px;
+    right: 50px;
+}
+
+/*
+    Fonts
+ */
+/* noto-sans-sc-100 - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 100;
+  src: url('../fonts/noto-sans-sc-v39-chinese-simplified_cyrillic_latin_latin-ext-100.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-sans-sc-regular - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/noto-sans-sc-v39-chinese-simplified_cyrillic_latin_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-sans-sc-700 - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/noto-sans-sc-v39-chinese-simplified_cyrillic_latin_latin-ext-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-sans-sc-900 - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/noto-sans-sc-v39-chinese-simplified_cyrillic_latin_latin-ext-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-serif-sc-200 - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 200;
+  src: url('../fonts/noto-serif-sc-v34-chinese-simplified_cyrillic_latin_latin-ext-200.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-serif-sc-regular - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/noto-serif-sc-v34-chinese-simplified_cyrillic_latin_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-serif-sc-700 - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/noto-serif-sc-v34-chinese-simplified_cyrillic_latin_latin-ext-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* noto-serif-sc-900 - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/noto-serif-sc-v34-chinese-simplified_cyrillic_latin_latin-ext-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* liu-jian-mao-cao-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Liu Jian Mao Cao';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/liu-jian-mao-cao-v24-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* long-cang-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Long Cang';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/long-cang-v21-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ma-shan-zheng-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Ma Shan Zheng';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/ma-shan-zheng-v14-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* wdxl-lubrifont-sc-regular - chinese-simplified_cyrillic_latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'WDXL Lubrifont SC';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/wdxl-lubrifont-sc-v1-chinese-simplified_cyrillic_latin_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* zcool-kuaile-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'ZCOOL KuaiLe';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/zcool-kuaile-v20-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* zcool-qingke-huangyou-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'ZCOOL QingKe HuangYou';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/zcool-qingke-huangyou-v16-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* zcool-xiaowei-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'ZCOOL XiaoWei';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/zcool-xiaowei-v15-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* zhi-mang-xing-regular - chinese-simplified_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Zhi Mang Xing';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/zhi-mang-xing-v19-chinese-simplified_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
