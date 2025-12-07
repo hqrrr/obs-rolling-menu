@@ -1,0 +1,48 @@
+name: Build and Release OBS Rolling Menu (Windows)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install "pyinstaller==6.17"
+
+      - name: Build with PyInstaller
+        run: |
+          python build.py
+
+      - name: Create zip from dist folder
+        run: |
+          # ZIP dist\OBS Rolling Menu as obs-rolling-menu-windows.zip
+          Compress-Archive -Path "dist\OBS Rolling Menu" -DestinationPath "obs-rolling-menu-windows.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/obs-rolling-menu-windows.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
