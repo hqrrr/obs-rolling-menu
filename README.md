@@ -1,9 +1,10 @@
 # OBS Rolling Menu
 
-A simple browser-source overlay tool for OBS (or similar software) that displays a scrolling list 
-and rotating text, fully customizable through a built-in web control panel.
+A simple browser-source overlay tool for OBS (or similar software) that displays a scrolling list and 
+rotating text, automatically sorts and classifies based on data, and is fully customizable through a 
+built-in web control panel.
 
-一个用于OBS（或者其它类似软件）的简单滚动列表叠加显示工具，支持顶部轮播文字、可调背景、字体、滚动速度，并可通过内置控制面板实时配置。
+一个用于OBS（或者其它类似软件）的简单滚动列表叠加显示工具，支持顶部轮播文字、可调背景、字体、滚动速度，根据数据自动分类排序，并可通过内置控制面板实时配置。
 
 ![Overview](./_doc/Overview.png)
 
@@ -50,9 +51,9 @@ This tool provides two interfaces:
 - **控制面板**：用于配置叠加层  
 - **OBS 叠加层**：在 OBS 中以浏览器来源的形式显示  
 
-### Quick Start | 快速上手
+### Quick Start
 
-1. Download the latest version from Release Page
+1. Download the latest version from [Release Page](https://github.com/hqrrr/obs-rolling-menu/releases)
 2. Edit `_internal/data/data.xlsx` and save to update the list
 3. Run the application:
    1. If you have Python environment, run `python main.py`
@@ -100,8 +101,9 @@ This tool provides two interfaces:
     <img src="pics/gift.png">Text 1;<img src="pics/gift.png">Text 2;Text 3;Text 4
     ```
 
-快速上手：
-1. 从 Release 页面下载最新版本  
+### 快速上手
+
+1. 从 [Release](https://github.com/hqrrr/obs-rolling-menu/releases) 页面下载最新版本  
 2. 编辑 `_internal/data/data.xlsx` 来更新显示列表，然后保存  
 3. 运行应用程序：  
    1. 如果你已安装 Python 环境，可执行 `python main.py`  
