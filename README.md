@@ -1,5 +1,8 @@
 # OBS Rolling Menu
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/hqrrr/obs-rolling-menu/total)&nbsp;
+[![Release](https://img.shields.io/github/v/release/hqrrr/obs-rolling-menu?label=Release&color=4c8eda)](https://github.com/hqrrr/obs-rolling-menu/releases)&nbsp;
+
 A simple browser-source overlay tool for OBS (or similar software) that displays a scrolling list and 
 rotating text, automatically sorts and classifies based on data, and is fully customizable through a 
 built-in web control panel.
