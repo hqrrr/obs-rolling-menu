@@ -58,6 +58,8 @@ def get_grouped_rows(df, display_col, group_col=None):
       Each group produces:
           1. A group header row
           2. One item row per value in display_col within that group
+      * Rows where `group_col` is missing (NaN / empty string) are assigned
+        to a virtual group labeled "NaN".
     - If no grouping is used, only item rows are returned.
     - Rows with missing values in display_col are excluded.
     - Sorting:
@@ -100,8 +102,15 @@ def get_grouped_rows(df, display_col, group_col=None):
 
     if use_group:
         # Grouped output: emit a group header + item rows per group
-        for gval, gdf in sub.groupby(group_col):
-            label = str(gval)
+        for gval, gdf in sub.groupby(group_col, dropna=False):
+            # gval can be NaN, empty string, or a normal value
+            if pd.isna(gval):
+                label = "NaN"
+            elif isinstance(gval, str) and not gval.strip():
+                label = "NaN"
+            else:
+                label = str(gval)
+
             rows.append({
                 "type": "group",
                 "label": label,
