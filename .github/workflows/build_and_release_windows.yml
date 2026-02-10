@@ -34,10 +34,51 @@ jobs:
         run: |
           python build.py
 
-      - name: Create zip from dist folder
+      - name: Create zip release package
+        shell: pwsh
         run: |
-          # ZIP dist\OBS Rolling Menu as obs-rolling-menu-windows.zip
-          Compress-Archive -Path "dist\OBS Rolling Menu" -DestinationPath "obs-rolling-menu-windows.zip"
+          $ErrorActionPreference = "Stop"
+          
+          $app = "OBS Rolling Menu"
+          $dist = Join-Path $PWD "dist"
+          
+          $exe_onefile = Join-Path $dist "$app.exe"
+          $dir_onedir  = Join-Path $dist $app
+          $exe_onedir  = Join-Path $dir_onedir "$app.exe"
+          
+          if (Test-Path $exe_onefile) {
+            Write-Host "Detected onefile build: $exe_onefile"
+            $items = @(
+              $exe_onefile,
+              (Join-Path $dist "data.xlsx"),
+              (Join-Path $dist "pics"),
+              (Join-Path $dist "presets")
+            )
+          }
+          elseif (Test-Path $exe_onedir) {
+            Write-Host "Detected onedir build: $exe_onedir"
+            $items = @(
+              $dir_onedir
+            )
+          }
+          else {
+            Write-Host "dist contents:"
+            Get-ChildItem -Recurse $dist | Select-Object FullName
+            throw "Cannot find built exe for '$app' in dist/"
+          }
+          
+          # Optional: ensure external assets exist (depends on your build.py post-copy)
+          foreach ($p in $items) {
+            if (-not (Test-Path $p)) {
+              Write-Warning "Missing item: $p"
+            }
+          }
+          
+          $zip = Join-Path $PWD "obs-rolling-menu-windows.zip"
+          if (Test-Path $zip) { Remove-Item $zip -Force }
+          
+          Compress-Archive -Path $items -DestinationPath $zip
+          Write-Host "Created zip: $zip"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
