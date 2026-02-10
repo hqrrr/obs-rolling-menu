@@ -1,14 +1,14 @@
 from pathlib import Path
 import json
+import sys
 
-# Base directory for this module (preset.py)
-BASE_DIR = Path(__file__).resolve().parent
+def _get_app_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
 
-
-# Directory where preset JSON files are stored
-# Created automatically on module import
-PRESET_DIR = BASE_DIR / "presets"
-PRESET_DIR.mkdir(exist_ok=True)
+PRESET_DIR = _get_app_dir() / "presets"
+PRESET_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _safe_preset_name(name: str) -> str:

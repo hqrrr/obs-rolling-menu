@@ -1,6 +1,7 @@
 {
   "backgroundColor": "#000000",
   "backgroundOpacity": 0.3,
+  "contentAlign": "left",
   "borderRadius": 6,
   "color": "#ffffff",
   "containerHeight": 300,

@@ -321,6 +321,14 @@ function fillFormFromState() {
         const exists = Array.from(groupSelect.options).some(o => o.value === gb);
         groupSelect.value = exists ? gb : "";
     }
+
+    // Content alignment
+    const alignSel = document.getElementById("input-content-align");
+    if (alignSel) {
+        const v = currentState.contentAlign || "left";
+        const exists = Array.from(alignSel.options).some(o => o.value === v);
+        alignSel.value = exists ? v : "left";
+    }
 }
 
 /**
@@ -335,6 +343,7 @@ function setupListeners() {
     const textInput = document.getElementById("input-text");
     const sizeInput = document.getElementById("input-fontsize");
     const sizeValue = document.getElementById("fontsize-value");
+    const alignSel = document.getElementById("input-content-align");
     const colorInput = document.getElementById("input-color");
     const textFontSel = document.getElementById("input-text-fontfamily");
 
@@ -392,6 +401,7 @@ function setupListeners() {
         currentState.text = textInput.value;
         currentState.fontSize = parseInt(sizeInput.value || "32");
         currentState.color = colorInput.value;
+        currentState.contentAlign = (alignSel && alignSel.value) ? alignSel.value : "left";
 
         currentState.backgroundOpacity = parseFloat(bgInput.value || "0.4");
         currentState.borderRadius = parseInt(borderRadiusInput.value || "0", 10);
@@ -435,7 +445,8 @@ function setupListeners() {
         textInput, sizeInput, colorInput, bgInput, bgColorInput,
         columnSelect, groupSelect, widthInput, heightInput,
         speedInput, listSizeInput, listColorInput,
-        textSegDurInput, textFontSel, listFontSel, borderRadiusInput
+        textSegDurInput, textFontSel, listFontSel, borderRadiusInput,
+        alignSel
     ].forEach(el => {
         el.addEventListener("input", onChange);
     });

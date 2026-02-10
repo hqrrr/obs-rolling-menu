@@ -1,41 +1,40 @@
 from pathlib import Path
 import pandas as pd
+import sys
 
 
-def read_data():
+def _get_app_dir() -> Path:
     """
-    Load the main Excel data file (`data/data.xlsx`) and return both the
-    DataFrame and the list of column names.
-
-    Behavior:
-    - Resolves the path relative to this module's directory.
-    - Raises FileNotFoundError if the file does not exist.
-    - Reads the first sheet of the Excel workbook using pandas.
-    - Ensures that the file contains at least one column.
-
-    Returns:
-        df (pd.DataFrame): The loaded dataset.
-        columns (list[str]): List of column headers in the file.
-
-    Raises:
-        FileNotFoundError: If data.xlsx cannot be found.
-        ValueError: If the Excel file contains no columns.
+    Return the directory that contains the running app:
+    - In PyInstaller onefile/onedir: directory of the exe
+    - In source run: directory of this file (project root side)
     """
-    base_dir = Path(__file__).resolve().parent
-    data_file = base_dir / "data" / "data.xlsx"
+    if getattr(sys, "frozen", False):
+        # Running as packaged exe
+        return Path(sys.executable).resolve().parent
+    # Running from source
+    return Path(__file__).resolve().parent
 
-    # Verify that the Excel file exists before loading
+
+def read_data(filename: str = "data.xlsx"):
+    """
+    Load Excel from the same folder as the exe (preferred).
+    """
+    app_dir = _get_app_dir()
+    data_file = app_dir / filename
+
     if not data_file.exists():
-        raise FileNotFoundError(f"Excel file not found: {data_file}")
+        raise FileNotFoundError(
+            f"Excel file not found next to the application: {data_file}\n"
+            f"Please put '{filename}' in the same folder as the exe."
+        )
 
-    # Load the Excel file (first sheet by default)
     df = pd.read_excel(data_file)
 
-    # Ensure the file has at least one column
     if df.shape[1] == 0:
         raise ValueError(
             "The Excel file contains no columns. "
-            "Please check the contents of data.xlsx."
+            "Please check the contents of the Excel file."
         )
 
     columns = list(df.columns)

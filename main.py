@@ -2,6 +2,9 @@ from waitress import serve
 from flask import Flask, jsonify, request, render_template, Response, send_from_directory
 import threading
 import time
+import os
+import sys
+from pathlib import Path
 
 from reader import read_data, get_grouped_rows
 from worker import worker
@@ -25,6 +28,7 @@ state = {
     "selected_column": columns[0],  # Column used for the main overlay text (default: first column)
     "text": "place holder",         # Free text for the single-line mode (if used)
     "fontSize": 36,                 # Main text font size in pixels
+    "contentAlign": "left",         # Content alignment
     "color": "#ffffff",             # Main text color
     "backgroundColor": "#000000",   # Background color of the text container
     "backgroundOpacity": 0.4,       # Background opacity (0.0–1.0)
@@ -47,6 +51,11 @@ state = {
 # so the overlay can re-fetch the latest overlay data.
 state_version = 0
 
+def get_app_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
+
 """ Router """
 @app.route("/")
 def index():
@@ -65,8 +74,9 @@ def control():
 
 @app.route("/pics/<path:filename>")
 def serve_pics(filename):
-    """Serve image assets from the `pics` folder."""
-    return send_from_directory("pics", filename)
+    """Serve image assets from the external `pics` folder next to the exe."""
+    pics_dir = get_app_dir() / "pics"
+    return send_from_directory(str(pics_dir), filename)
 
 @app.route("/fonts/<path:filename>")
 def serve_fonts(filename):
@@ -105,6 +115,7 @@ def update_state():
     allowed_keys = [
         "text",
         "fontSize",
+        "contentAlign",
         "color",
         "backgroundColor",
         "backgroundOpacity",
@@ -205,6 +216,7 @@ def overlay_data():
         "rows": rows,
         "containerWidth": state.get("containerWidth", 600),
         "containerHeight": state.get("containerHeight", 300),
+        "contentAlign": state.get("contentAlign", "left"),
         "scrollSpeed": state.get("scrollSpeed", 30.0),
         "listFontSize": state.get("listFontSize", 24),
         "listColor": state.get("listColor", "#ffffff"),

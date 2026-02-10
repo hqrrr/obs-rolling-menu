@@ -45,6 +45,7 @@ async function fetchOverlayData() {
         const containerEl = document.getElementById("overlay-root");
         const viewportEl = document.getElementById("overlay-viewport");
         const textEl = document.getElementById("overlay-text");
+        const topEl = document.getElementById("overlay-top");
 
         // If any of the core elements are missing, abort this update
         if (!headerEl || !listEl || !containerEl || !viewportEl) return;
@@ -103,6 +104,26 @@ async function fetchOverlayData() {
 
         // Set header text to the currently selected column name
         headerEl.textContent = data.selected_column || "";
+
+        // Content alignment
+        const align = (data.contentAlign || "left");
+        const justify =
+            align === "center" ? "center" :
+            align === "right" ? "flex-end" :
+            "flex-start";
+
+        // Top rotating text alignment
+        if (topEl) topEl.style.justifyContent = justify;
+        if (textEl) {
+            textEl.style.width = "100%";
+            textEl.style.textAlign = align;
+        }
+
+        // Scrolling list alignment (inherit to items/groups)
+        if (listEl) {
+            listEl.style.textAlign = align;
+        }
+
 
         // Update container dimensions and scroll speed regardless of content changes
         containerWidth = data.containerWidth || 600;

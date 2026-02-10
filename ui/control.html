@@ -41,6 +41,12 @@
                     支持顶部轮播文字、可调背景、字体、滚动速度，并可通过内置控制面板实时配置。
                 </span>
             </p>
+            <p style="margin: 0.5rem 0 0; font-size: 14px;">
+                <a href="/overlay" target="_blank" rel="noopener">
+                    <span lang="en">Open overlay page</span>
+                    <span lang="chn">打开 Overlay 页面</span>
+                </a>
+            </p>
         </div>
 
         <!--
@@ -65,6 +71,17 @@
                 <span lang="en">Height (px)</span>
                 <span lang="chn">高度 (px)</span>
                 <input type="number" id="input-height" min="50" max="4000" step="10" placeholder="300">
+            </label>
+
+            <!-- Overlay content alignment -->
+            <label>
+                <span lang="en">Content alignment</span>
+                <span lang="chn">内容对齐方式</span>
+                <select id="input-content-align">
+                    <option value="left">靠左 / Left</option>
+                    <option value="center">居中 / Center</option>
+                    <option value="right">靠右 / Right</option>
+                </select>
             </label>
 
             <!-- Background styling -->

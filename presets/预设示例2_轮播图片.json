@@ -1,6 +1,7 @@
 {
   "backgroundColor": "#feadff",
   "backgroundOpacity": 0.2,
+  "contentAlign": "center",
   "borderRadius": 30,
   "color": "#ff00a0",
   "containerHeight": 300,
