@@ -57,7 +57,7 @@ This tool provides two interfaces:
 ### Quick Start
 
 1. Download the latest version from [Release Page](https://github.com/hqrrr/obs-rolling-menu/releases)
-2. Edit `_internal/data/data.xlsx` and save to update the list
+2. Edit `data.xlsx` and save to update the list
 3. Run the application:
    1. If you have Python environment, run `python main.py`
    2. If not, double-click the `OBS Rolling Menu.exe`
@@ -84,21 +84,8 @@ This tool provides two interfaces:
 > If port `5000` is already in use by other services, the tool will find the next available port. 
 > See the messages in the console.
 
-9. Optional: Add custom fonts:
-   1. Place font files (.ttf, .woff2) into `_internal/fonts/`
-   2. Define the font in `_internal/ui/style.css` (at the end of the file), example:
-   ```
-    /* noto-sans-sc-100 - chinese-simplified_cyrillic_latin_latin-ext */
-    @font-face {
-      font-display: swap;*/
-      font-family: 'Noto Sans SC';
-      font-style: normal;
-      font-weight: 100;
-      src: url('../fonts/noto-sans-sc-v39-chinese-simplified_cyrillic_latin_latin-ext-100.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-    }
-    ```
-10. Optional: Add custom images
-    1. Place icons/images into `_internal/pics/`
+9. Optional: Add custom images
+    1. Place icons/images into `pics/`
     2. Then reference them in overlay text using HTML `<img src="pics/YourImage.format">` if needed, example:
     ```
     <img src="pics/gift.png">Text 1;<img src="pics/gift.png">Text 2;Text 3;Text 4
@@ -107,7 +94,7 @@ This tool provides two interfaces:
 ### 快速上手
 
 1. 从 [Release](https://github.com/hqrrr/obs-rolling-menu/releases) 页面下载最新版本  
-2. 编辑 `_internal/data/data.xlsx` 来更新显示列表，然后保存  
+2. 编辑 `data.xlsx` 来更新显示列表，然后保存  
 3. 运行应用程序：  
    1. 如果你已安装 Python 环境，可执行 `python main.py`  
    2. 如果没有 Python 环境，直接双击 `OBS Rolling Menu.exe`  
@@ -137,21 +124,8 @@ This tool provides two interfaces:
 > 如果端口 `5000` 已被其他程序占用，工具会自动寻找下一个可用端口。  
 > 请查看终端窗口中的提示信息。
 
-9. （可选）添加自定义字体：  
-   1. 将字体文件（`.ttf`, `.woff2`）放入 `_internal/fonts/` 文件夹  
-   2. 在 `_internal/ui/style.css` 最后添加字体定义，例如：
-   ```
-    /* noto-sans-sc-100 - chinese-simplified_cyrillic_latin_latin-ext */
-    @font-face {
-      font-display: swap;*/
-      font-family: 'Noto Sans SC';
-      font-style: normal;
-      font-weight: 100;
-      src: url('../fonts/noto-sans-sc-v39-chinese-simplified_cyrillic_latin_latin-ext-100.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-    }
-    ```
-10. （可选）添加自定义图片：  
-    1. 将图标 / 图片放入 `_internal/pics/` 文件夹  
+9. （可选）添加自定义图片：  
+    1. 将图标 / 图片放入 `pics/` 文件夹  
     2. 在顶部文本中通过 HTML `<img src="pics/YourImage.xxx">` 使用图片，例如：  
  ```
  <img src="pics/gift.png">Text 1;<img src="pics/gift.png">Text 2;Text 3;Text 4
